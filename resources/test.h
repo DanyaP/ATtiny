@@ -1,1 +1,0 @@
-void testing(int a, int b, long long sum);
