@@ -18,10 +18,11 @@ void doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory)
         }
         if (add(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing add\n";
+            break;
             continue;
         }
         if (nop(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing nothing\n";
+            //std::cerr << "doing nothing\n";
             continue;
         }
         PC += 2;
@@ -57,8 +58,8 @@ bool parsing_file(int fdsc, uint8_t *iter_program_memory) {
                 for (int i = 0; i < byte_count; ++i) {
                     read(fdsc, str_data, sizeof(str_data) - 1);
                     data = strtoul(str_data, 0, 16);
-                    if (i % 2 == 0) iter_program_memory[PC + 1] = data; // little endian
-                    else iter_program_memory[PC - 1] = data;
+                    if (i % 2 == 0) *(iter_program_memory + PC + 1) = data; // little endian
+                    else *(iter_program_memory + PC - 1) = data;
                     ++PC;
                 }
             case 1: //end of file

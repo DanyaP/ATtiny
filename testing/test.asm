@@ -2,5 +2,3 @@
 .cseg
 
 main:	add r17,r18
-
-carry:	nop
