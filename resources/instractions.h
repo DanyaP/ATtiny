@@ -2,39 +2,60 @@
 #define ATTINY_INSTRACTIONS_H
 
 #include "attiny.h"
+#include <cstdint>
 
 void SREG();
 
-bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // sum
+void get_SREG(uint8_t * iter_program_memory);
 
-bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // sum with carry
+void set_SREG(uint8_t * iter_program_memory);
 
-bool sub(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // sub
+bool nop(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // do nothig
 
-bool jmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // jump
+bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sum
 
-bool call(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC);
+bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sum with carry
 
-bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // compare
+bool sub(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between registers
 
-bool ldi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC);
+bool sbc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between registers with carry
 
-bool nop(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // do nothig
+bool subi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between register and const
 
-bool sec(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set carry flag
+bool sbci(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between registers and const with carry
 
-bool sen(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set negative flag
 
-bool sez(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set zero flag
+//not done
+bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // compare
 
-bool sei(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // global interrapt enable
 
-bool ses(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set signed test fag
+bool sbi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Set Bit in I/O Register
 
-bool sev(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set two’s complement overflow
 
-bool set(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set T in SREG
+bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Relative Jump
 
-bool seh(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t PC); // set half carry flag
+bool ijmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Indirect Jump to const
+
+bool call(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // call
+
+
+
+bool ldi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // move
+
+bool sec(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set carry flag
+
+bool sen(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set negative flag
+
+bool sez(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set zero flag
+
+bool sei(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // global interrapt enable
+
+bool ses(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set signed test fag
+
+bool sev(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set two’s complement overflow
+
+bool set(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set T in SREG
+
+bool seh(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set half carry flag
 
 #endif //ATTINY_INSTRACTIONS_H

@@ -6,28 +6,7 @@
 #include <vector>
 #include <stdio.h>
 #include <fstream>
-
-void doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) {
-    uint16_t PC = 0;
-    while (1) {
-        if (PC == 0x01FF)
-            PC = 0;
-        if (adc(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing adc\n";
-            continue;
-        }
-        if (add(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing add\n";
-            break;
-            continue;
-        }
-        if (nop(iter_program_memory, iter_data_memory, PC)) {
-            //std::cerr << "doing nothing\n";
-            continue;
-        }
-        PC += 2;
-    }
-}
+#include <cstdint>
 
 bool parsing_file(int fdsc, uint8_t *iter_program_memory) {
     ssize_t num_of_bytes = -1;
@@ -92,15 +71,15 @@ int open_hex(const char *argv, uint8_t *iter_program_memory) {
     int fdsc = open(argv, O_RDONLY);
     if (fdsc == -1) {
         close(fdsc);
-        std::cout << "Nonexistent or not available file\n";
+        std::cerr << "Nonexistent or not available file\nPlease, enter available file\n";
         return -1;
     } else if (!parsing_file(fdsc, iter_program_memory)) {
         close(fdsc);
-        std::cout << "Some problem with hex file\n";
+        std::cerr << "Some problem with hex file\nPlease, enter correct hex file\n";
         return 1;
     } else {
         close(fdsc);
-        std::cout << "All correct\n";
+        std::cerr << "All correct\nEmulation started\n";
         return 0;
     }
 }

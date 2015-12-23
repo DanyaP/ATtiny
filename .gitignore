@@ -39,11 +39,17 @@
 .AppleDB
 .AppleDesktop
 
-# Others
-Makefile
+# Some project files
 *~
 *.vcxproj
 *.sln
 *.xcodeproj
 text.txt
 tn45def.inc
+Attiny
+
+# Makefiles
+*CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
