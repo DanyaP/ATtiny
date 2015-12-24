@@ -1,7 +1,3 @@
-//
-// Created by Daniil Petrochenko on 23/12/15.
-//
-
 #include <iostream>
 #include "doing_instractions.h"
 #include "instractions.h"
@@ -9,7 +5,7 @@
 
 int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) {
     uint16_t PC = 0;
-    sleep(2);
+    sleep(1);
     // I, T, H, S, V, N, Z, C;
     while (1) {
         if (PC == 0x01FF)
@@ -18,6 +14,8 @@ int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) 
             std::cerr << "doing adc\n";
         } else if (add(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing add\n";
+        } else if (inc(iter_program_memory, iter_data_memory, PC)) {
+            std::cerr << "doing inc\n";
         } else if (sub(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing sub\n";
         } else if (sbc(iter_program_memory, iter_data_memory, PC)) {
@@ -26,16 +24,18 @@ int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) 
             std::cerr << "doing subi\n";
         } else if (sbci(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing sbci\n";
-        } else if (nop(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing nothing\n";
+        } else if (mov(iter_program_memory, iter_data_memory, PC)) {
+            std::cerr << "doing mov\n";
         } else if (rjmp(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing rjmp\n";
-        } else if (ijmp(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing ijmp\n";
-        } else if (call(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing call\n";
+        } else if (rcall(iter_program_memory, iter_data_memory, PC)) {
+            std::cerr << "doing rcall\n";
+        } else if (ret(iter_program_memory, iter_data_memory, PC)) {
+            std::cerr << "doing ret\n";
         } else if (cp(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing cp\n";
+        } else if (cpi(iter_program_memory, iter_data_memory, PC)) {
+            std::cerr << "doing cpi\n";
         } else if (ldi(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing ldi\n";
         } else if (sei(iter_program_memory, iter_data_memory, PC)) {
@@ -56,11 +56,12 @@ int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) 
             std::cerr << "doing sec\n";
         } else if (sbi(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing sbi\n";
+        } else if (nop(iter_program_memory, PC)) {
+            std::cerr << "doing nothing\n";
         } else {
             std::cerr << "some undeclared instraction\nEmulation interrupted\n";
             return 1;
-            //PC += 2;
         }
-        sleep(2);
+        sleep(1);
     }
 }

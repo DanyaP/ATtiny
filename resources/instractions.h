@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ATTINY_INSTRACTIONS_H
 #define ATTINY_INSTRACTIONS_H
 
@@ -6,15 +7,17 @@
 
 void SREG();
 
-void get_SREG(uint8_t * iter_program_memory);
+void get_SREG(uint8_t * iter_data_memory);
 
-void set_SREG(uint8_t * iter_program_memory);
+void set_SREG(uint8_t * iter_data_memory);
 
-bool nop(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // do nothig
+bool nop(uint8_t * iter_program_memory, uint16_t &PC); // do nothig
+
+bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sum with carry
 
 bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sum
 
-bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sum with carry
+bool inc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // increment
 
 bool sub(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between registers
 
@@ -24,23 +27,15 @@ bool subi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
 
 bool sbci(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // sub between registers and const with carry
 
+bool ldi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Load Immediate
 
-//not done
-bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // compare
-
+bool mov(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Move Between Registers
 
 bool sbi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Set Bit in I/O Register
 
+bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // compare
 
-bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Relative Jump
-
-bool ijmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Indirect Jump to const
-
-bool call(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // call
-
-
-
-bool ldi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // move
+bool cpi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Compare Register with Immediate
 
 bool sec(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set carry flag
 
@@ -57,5 +52,15 @@ bool sev(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
 bool set(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set T in SREG
 
 bool seh(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // set half carry flag
+
+bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Relative Jump
+
+//not done
+
+bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // call
+
+bool ret(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // return
+
+/*bool ser(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Set all Bits in Register*/
 
 #endif //ATTINY_INSTRACTIONS_H

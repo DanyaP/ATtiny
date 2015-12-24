@@ -16,9 +16,6 @@ int main(const int argc, const char *argv[]) {
     uint8_t * iter_program_memory = (uint8_t *)program_memory.data();
     uint8_t * iter_data_memory = data_memory.data();
     if (!open_hex(argv[1], iter_program_memory)) {
-        /*for (auto i = program_memory.begin(); i != program_memory.end(); ++i) {
-            std::cerr << *i << ' ';
-        }*/
         doing_instraction(iter_program_memory, iter_data_memory);
     }
 
