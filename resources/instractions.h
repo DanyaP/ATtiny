@@ -4,8 +4,8 @@
 
 #include "attiny.h"
 #include <cstdint>
-
-void SREG();
+#include "instractions.h"
+#include "doing_instractions.h"
 
 void get_SREG(uint8_t * iter_data_memory);
 

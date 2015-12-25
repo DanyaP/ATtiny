@@ -52,4 +52,5 @@ Attiny
 *CMakeCache.txt
 CMakeFiles/
 Makefile
+MyMakefile
 *.cmake

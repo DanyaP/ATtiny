@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "attiny.h"
+#include "instractions.h"
 
 int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory);
 

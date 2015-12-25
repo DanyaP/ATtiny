@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <sys/signal.h>
 #include <iostream>
+#include "doing_instractions.h"
+#include "instractions.h"
 
 void func(int s) {
     std::cerr << "User's interruption\n";
