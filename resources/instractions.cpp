@@ -44,6 +44,7 @@ bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
                 ((*(iter_data_memory + r) >> 7) & !(res >> 7));
         *(iter_data_memory + d) = res;
         PC += 2;
+        PC %= 0x200u;
         set_SREG(iter_data_memory);
         return true;
     }
@@ -69,6 +70,7 @@ bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
             ((*(iter_data_memory + r) >> 7) & !(res >> 7));
         *(iter_data_memory + d) = res;
         PC += 2;
+        PC %= 0x200u;
         set_SREG(iter_data_memory);
         return true;
     }
@@ -88,6 +90,7 @@ bool inc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         if (*(iter_data_memory + d) == 0) Z = true;
         else Z = false;
         PC += 2;
+        PC %= 0x200u;
         set_SREG(iter_data_memory);
         return true;
     }
@@ -103,6 +106,7 @@ bool sub(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         // change flags
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -117,6 +121,7 @@ bool sbc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         // change flags
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -131,6 +136,7 @@ bool subi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
         // change flags
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -145,6 +151,7 @@ bool sbci(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
         // change flags
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -156,6 +163,7 @@ bool sbi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         uint8_t b = (*(iter_program_memory + PC + 1) & 0x7u);
         *(iter_data_memory + A) = (*(iter_data_memory + A) | (1 << b));
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -167,6 +175,7 @@ bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
                 (int16_t)(*(iter_program_memory + PC + 1) & 0xFF);
         k += 1;
         PC += (2 * k);
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -188,6 +197,7 @@ bool mov(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         uint8_t d = (((*(iter_program_memory + PC) & 0b1u) << 4) + (*(iter_program_memory + PC + 1) >> 4 & 0xFu));
         *(iter_data_memory + d) = *(iter_data_memory + r);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -213,6 +223,7 @@ bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC)
             ((*(iter_data_memory + r) >> 7) & (res >> 7));
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -237,6 +248,7 @@ bool cpi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
             ((K >> 7) & (res >> 7));
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -248,6 +260,7 @@ bool ldi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         uint8_t K = (((*(iter_program_memory + PC) & 0xFu) << 4) + (*(iter_program_memory + PC + 1) & 0xFu));
         *(iter_data_memory + d) = K;
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -269,6 +282,7 @@ bool sec(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         C = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -280,6 +294,7 @@ bool sez(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         Z = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -291,6 +306,7 @@ bool sen(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         N = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -302,6 +318,7 @@ bool sev(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         V = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -313,6 +330,7 @@ bool ses(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         S = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -324,6 +342,7 @@ bool seh(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         H = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -335,6 +354,7 @@ bool set(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         T = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -346,6 +366,7 @@ bool sei(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         I = 1;
         set_SREG(iter_data_memory);
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;
@@ -354,6 +375,7 @@ bool sei(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
 bool nop(uint8_t * iter_program_memory, uint16_t &PC) {
     if (iter_program_memory[PC] == 0 && iter_program_memory[PC + 1] == 0) {
         PC += 2;
+        PC %= 0x200u;
         return true;
     }
     return false;

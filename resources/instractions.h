@@ -57,10 +57,10 @@ bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
 
 //not done
 
-bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // call
+/*bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // call
 
 bool ret(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // return
 
-/*bool ser(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Set all Bits in Register*/
+bool ser(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC); // Set all Bits in Register*/
 
 #endif //ATTINY_INSTRACTIONS_H

@@ -9,8 +9,6 @@ int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) 
     sleep(1);
     // I, T, H, S, V, N, Z, C;
     while (1) {
-        if (PC == 0x01FF)
-            PC = 0;
         if (adc(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing adc\n";
         } else if (add(iter_program_memory, iter_data_memory, PC)) {
