@@ -66,7 +66,6 @@ bool parsing_file(int fdsc, uint8_t *iter_program_memory) {
     return true;
 }
 
-
 int open_hex(const char *argv, uint8_t *iter_program_memory) {
     int fdsc = open(argv, O_RDONLY);
     if (fdsc == -1) {

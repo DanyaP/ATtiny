@@ -5,7 +5,7 @@
 
 bool I, T, H, S, V, N, Z, C;
 uint8_t address_reg = 0x3Fu;
-uint8_t SPL = 0x3Du;
+//uint8_t SPL = 0x3Du;
 void get_SREG(uint8_t * iter_data_memory) {
     uint8_t sreg = *(iter_data_memory + address_reg);
     I = sreg >> 7;
@@ -28,10 +28,8 @@ void set_SREG(uint8_t * iter_data_memory) {
 bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) {
     if ((*(iter_program_memory + PC) & 0xFCu) == 0x1Cu) {
         get_SREG(iter_data_memory); // flags
-        //std::cerr << std::bitset<4>(*(iter_program_memory + PC) & 0b10u) << ' ' << std::bitset<4>(*(iter_program_memory + PC + 1) & 0xFu);
         uint8_t r = ((((*(iter_program_memory + PC) >> 1) & 0b1u) << 4) + (*(iter_program_memory + PC + 1) & 0xFu));
         uint8_t d = (((*(iter_program_memory + PC) & 0b1u) << 4) + (*(iter_program_memory + PC + 1) >> 4 & 0xFu));
-        //std::cerr << (char)r << ' ' << (char)d << '\n'; // 0001 0010  1 1110 1 0100
         uint8_t res = (*(iter_data_memory + d) + *(iter_data_memory + r) + (uint8_t) C);
         H = ((((*(iter_data_memory + d) & (1 << 3)) >> 3) & ((*(iter_data_memory + r) & (1 << 3)) >> 3)) |
             (((*(iter_data_memory + d) & (1 << 3)) >> 3) & !((res & (1 << 3)) >> 3)) |
@@ -40,7 +38,7 @@ bool adc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         V = (((*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7) & !(res >> 7)) |
                 (!(*(iter_data_memory + d) >> 7) & !(*(iter_data_memory + r) >> 7) & (res >> 7)));
         N = (res >> 7);
-        Z = (res == 0x00);
+        Z = (res == 0);
         C = ((*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7)) |
                 ((*(iter_data_memory + d) >> 7) & !(res >> 7)) |
                 ((*(iter_data_memory + r) >> 7) & !(res >> 7));
@@ -57,7 +55,6 @@ bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         get_SREG(iter_data_memory); // flags
         uint8_t r = ((((*(iter_program_memory + PC) >> 1) & 0b1u) << 4) + (*(iter_program_memory + PC + 1) & 0xFu));
         uint8_t d = (((*(iter_program_memory + PC) & 0b1u) << 4) + (*(iter_program_memory + PC + 1) >> 4 & 0xFu));
-        //*(iter_data_memory + d) = *(iter_data_memory + d) + *(iter_data_memory + r);
         uint8_t res = *(iter_data_memory + d) + *(iter_data_memory + r);
         H = ((((*(iter_data_memory + d) & (1 << 3)) >> 3) & ((*(iter_data_memory + r) & (1 << 3)) >> 3)) |
              (((*(iter_data_memory + d) & (1 << 3)) >> 3) & !((res & (1 << 3)) >> 3)) |
@@ -66,7 +63,7 @@ bool add(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         V = (((*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7) & !(res >> 7)) |
              (!(*(iter_data_memory + d) >> 7) & !(*(iter_data_memory + r) >> 7) & (res >> 7)));
         N = (res >> 7);
-        Z = (res == 0x00);
+        Z = (res == 0);
         C = ((*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7)) |
             ((*(iter_data_memory + d) >> 7) & !(res >> 7)) |
             ((*(iter_data_memory + r) >> 7) & !(res >> 7));
@@ -88,7 +85,7 @@ bool inc(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         else V = false;
         if (((*(iter_data_memory + d) >> 7) & 0x1u)) N = true;
         else N = false;
-        if ((*(iter_data_memory + d) == 0x00)) Z = true;
+        if (*(iter_data_memory + d) == 0) Z = true;
         else Z = false;
         PC += 2;
         set_SREG(iter_data_memory);
@@ -152,7 +149,7 @@ bool sbci(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
     }
     return false;
 }
-// check this instraction
+
 bool sbi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) {
     if ((*(iter_program_memory + PC) & 0xFFu) == 0x9Au) {
         uint8_t A = 0x20u + (((*(iter_program_memory + PC + 1) >> 4) << 1) + ((*(iter_program_memory + PC + 1) >> 3) & 0x1u));
@@ -175,7 +172,7 @@ bool rjmp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &P
     return false;
 }
 // need fix problem with stack
-bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) {
+/*bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) {
     if ((*(iter_program_memory + PC) & 0xFCu) == 0xD0u) {
         int16_t k = ((((int16_t)(*(iter_program_memory + PC) & 0xF)) << 8) +
                 (int16_t)(*(iter_program_memory + PC + 1) & 0xFF)) + 1;
@@ -183,7 +180,7 @@ bool rcall(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &
     }
 }
 
-bool ret(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) { }
+bool ret(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) { }*/
 
 bool mov(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC) {
     if ((*(iter_program_memory + PC) & 0xFEu) == 0x2Cu) {
@@ -210,7 +207,7 @@ bool cp(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC)
         V = (((*(iter_data_memory + d) >> 7) & !(*(iter_data_memory + r) >> 7) & !(res >> 7)) |
              (!(*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7) & (res >> 7)));
         N = (res >> 7);
-        Z = (res == 0x00);
+        Z = (res == 0);
         C = (!(*(iter_data_memory + d) >> 7) & (*(iter_data_memory + r) >> 7)) |
             (!(*(iter_data_memory + d) >> 7) & (res >> 7)) |
             ((*(iter_data_memory + r) >> 7) & (res >> 7));
@@ -234,7 +231,7 @@ bool cpi(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
         V = (((*(iter_data_memory + d) >> 7) & !(K >> 7) & !(res >> 7)) |
              (!(*(iter_data_memory + d) >> 7) & (K >> 7) & (res >> 7)));
         N = (res >> 7);
-        Z = (res == 0x00);
+        Z = (res == 0);
         C = (!(*(iter_data_memory + d) >> 7) & (K >> 7)) |
             (!(*(iter_data_memory + d) >> 7) & (res >> 7)) |
             ((K >> 7) & (res >> 7));
@@ -355,7 +352,7 @@ bool sei(uint8_t * iter_program_memory, uint8_t * iter_data_memory, uint16_t &PC
 }
 
 bool nop(uint8_t * iter_program_memory, uint16_t &PC) {
-    if (iter_program_memory[PC] == 0x00u && iter_program_memory[PC + 1] == 0x00u) {
+    if (iter_program_memory[PC] == 0 && iter_program_memory[PC + 1] == 0) {
         PC += 2;
         return true;
     }

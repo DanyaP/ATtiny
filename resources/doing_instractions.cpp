@@ -29,10 +29,6 @@ int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) 
             std::cerr << "doing mov\n";
         } else if (rjmp(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing rjmp\n";
-        } else if (rcall(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing rcall\n";
-        } else if (ret(iter_program_memory, iter_data_memory, PC)) {
-            std::cerr << "doing ret\n";
         } else if (cp(iter_program_memory, iter_data_memory, PC)) {
             std::cerr << "doing cp\n";
         } else if (cpi(iter_program_memory, iter_data_memory, PC)) {
