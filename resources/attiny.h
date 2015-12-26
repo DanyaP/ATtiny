@@ -3,6 +3,7 @@
 #define ATTINY_H
 
 #include <vector>
+#include <cstdint>
 
 int open_hex(const char *argv, uint8_t *iter_program_memory);
 

@@ -2,6 +2,7 @@
 #include "doing_instractions.h"
 #include "instractions.h"
 #include <unistd.h>
+#include <cstdint>
 
 int doing_instraction(uint8_t *iter_program_memory, uint8_t * iter_data_memory) {
     uint16_t PC = 0;
